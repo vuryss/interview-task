@@ -1,0 +1,99 @@
+parameters:
+    european_union_contries:
+        - name: Austria
+          alpha2: AT
+        - name: Belgium
+          alpha2: BE
+        - name: Bulgaria
+          alpha2: BG
+        - name: Cyprus
+          alpha2: CY
+        - name: 'Czech Rep.'
+          alpha2: CZ
+        - name: Germany
+          alpha2: DE
+        - name: Denmark
+          alpha2: DK
+        - name: Estonia
+          alpha2: EE
+        - name: Spain
+          alpha2: ES
+        - name: Finland
+          alpha2: FI
+        - name: France
+          alpha2: FR
+        - name: 'United Kingdom'
+          alpha2: GB
+        - name: Greece
+          alpha2: GR
+        - name: Croatia
+          alpha2: HR
+        - name: Hungary
+          alpha2: HU
+        - name: Ireland
+          alpha2: IE
+        - name: Italy
+          alpha2: IT
+        - name: Lithuania
+          alpha2: LT
+        - name: Luxembourg
+          alpha2: LU
+        - name: Latvia
+          alpha2: LV
+        - name: Malta
+          alpha2: MT
+        - name: Netherlands
+          alpha2: NL
+        - name: Poland
+          alpha2: PL
+        - name: Portugal
+          alpha2: PT
+        - name: Romania
+          alpha2: RO
+        - name: Sweden
+          alpha2: SE
+        - name: Slovenia
+          alpha2: SI
+        - name: Slovakia
+          alpha2: SK
+
+    commission_percentages:
+        eur: 1
+        _default: 2
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        class: \Symfony\Component\HttpClient\CurlHttpClient
+
+    monolog.file_log:
+        class: \Monolog\Handler\StreamHandler
+        arguments:
+            $stream: '%root_dir%/app.log'
+
+    monolog.logger:
+        class: \Monolog\Logger
+        arguments:
+            $name: 'app'
+            $handlers:
+                - '@monolog.file_log'
+
+    Psr\Log\LoggerInterface:
+        alias: monolog.logger
+
+    App\:
+        resource: '../src/*'
+
+    App\Command\CalculateCommissionsCommand:
+        public: true
+
+    App\Service\CountryHelper:
+        arguments:
+            $europeanCountries: '%european_union_contries%'
+
+    App\Payment\CommissionCalculator:
+        arguments:
+            $commissionPercentages: '%commission_percentages%'
