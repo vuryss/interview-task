@@ -8,7 +8,7 @@ use Throwable;
 
 class ExchangeRateApiProvider implements CurrencyRateProvider
 {
-    const BASE_CURRENCY = 'EUR';
+    public const BASE_CURRENCY = 'EUR';
 
     private HttpClientInterface $httpClient;
     private array               $cache = [];

@@ -4,7 +4,7 @@ namespace App\Service;
 
 class CountryHelper
 {
-    private array $europeanCountries = [];
+    private array $europeanCountries;
 
     public function __construct(array $europeanCountries)
     {
