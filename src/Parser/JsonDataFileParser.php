@@ -30,7 +30,9 @@ class JsonDataFileParser implements FileParser
                 yield $this->parseJsonString(trim($line));
             }
         } finally {
-            $this->closeFile($file);
+            if (isset($file) && is_resource($file)) {
+                $this->closeFile($file);
+            }
         }
     }
 

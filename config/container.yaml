@@ -22,8 +22,8 @@ parameters:
           alpha2: FI
         - name: France
           alpha2: FR
-        - name: 'United Kingdom'
-          alpha2: GB
+#        - name: 'United Kingdom' # No longer in EU
+#          alpha2: GB
         - name: Greece
           alpha2: GR
         - name: Croatia
